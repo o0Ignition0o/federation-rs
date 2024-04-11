@@ -615,14 +615,6 @@ where
 pub struct PlanOptions {
     /// Which labels to override during query planning
     pub override_conditions: Vec<String>,
-    /// Enables type conditioned fetching.
-    /// This flag is a workaround, which may yield significant
-    /// performance degradation when computing query plans,
-    /// and increase query plan size.
-    ///
-    /// If you aren't aware of this flag, you probably don't need it.
-    /// Defaults to false.
-    pub type_conditioned_fetching: bool,
 }
 
 #[derive(Serialize, Debug, Clone, PartialEq, Eq, Hash)]
@@ -695,6 +687,14 @@ pub struct QueryPlannerConfig {
     /// sub-set are provided without guarantees of stability (they may be dangerous) or continued support (they
     /// may be removed without warning).
     pub debug: Option<QueryPlannerDebugConfig>,
+    /// Enables type conditioned fetching.
+    /// This flag is a workaround, which may yield significant
+    /// performance degradation when computing query plans,
+    /// and increase query plan size.
+    ///
+    /// If you aren't aware of this flag, you probably don't need it.
+    /// Defaults to false.
+    pub type_conditioned_fetching: bool,
 }
 
 impl Default for QueryPlannerConfig {
@@ -707,6 +707,7 @@ impl Default for QueryPlannerConfig {
             reuse_query_fragments: None,
             generate_query_fragments: None,
             debug: Default::default(),
+            type_conditioned_fetching: false,
         }
     }
 }
@@ -2130,6 +2131,7 @@ feature https://specs.apollo.dev/unsupported-feature/v0.1 is for: SECURITY but i
                 graphql_validation: true,
                 reuse_query_fragments: None,
                 debug: Default::default(),
+                type_conditioned_fetching: false
             },
         )
         .await
@@ -2210,6 +2212,7 @@ feature https://specs.apollo.dev/unsupported-feature/v0.1 is for: SECURITY but i
                 graphql_validation: true,
                 reuse_query_fragments: None,
                 debug: Default::default(),
+                type_conditioned_fetching: false
             },
         )
         .await
@@ -2242,6 +2245,7 @@ feature https://specs.apollo.dev/unsupported-feature/v0.1 is for: SECURITY but i
                 graphql_validation: true,
                 reuse_query_fragments: None,
                 debug: Default::default(),
+                type_conditioned_fetching: false
             },
         )
         .await
@@ -2297,6 +2301,7 @@ feature https://specs.apollo.dev/unsupported-feature/v0.1 is for: SECURITY but i
                 graphql_validation: true,
                 reuse_query_fragments: None,
                 debug: Default::default(),
+                type_conditioned_fetching: true,
             },
         )
         .await
@@ -2332,7 +2337,6 @@ feature https://specs.apollo.dev/unsupported-feature/v0.1 is for: SECURITY but i
                     .to_string(),
                     None,
                     PlanOptions {
-                        type_conditioned_fetching: true,
                         ..Default::default()
                     },
                 )
