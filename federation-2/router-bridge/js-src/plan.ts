@@ -107,7 +107,6 @@ export class BridgeQueryPlanner {
           overrideConditions: new Map(
             options.overrideConditions.map((override) => [override, true])
           ),
-          typeConditionedFetching: options.typeConditionedFetching,
         }
       : undefined;
 
